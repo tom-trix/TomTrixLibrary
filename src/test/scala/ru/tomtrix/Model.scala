@@ -1,19 +1,13 @@
 package ru.tomtrix
 
-import akka.actor.Actor
-import ru.tomtrix.ttl.{SQLiteConnection, DataTable, Observable}
 import scala.slick.jdbc.GetResult
+import akka.actor.Actor
+import ru.tomtrix.ttl._
 
 
-
-abstract protected sealed class ModelMessage
-case class SetFilter(s: Option[String]) extends ModelMessage
-case object FilterChanged extends ModelMessage
-case object GetData extends ModelMessage
-case class Data(data: List[Seq[Any]]) extends ModelMessage
-case object GetHeaders extends ModelMessage
-case class Headers(headers: Seq[String]) extends ModelMessage
-
+case class SetFilter(s: Option[String])
+case object GetData
+case object GetHeaders
 
 
 class Model extends Actor with Observable {
@@ -29,7 +23,7 @@ class Model extends Actor with Observable {
 
   var filter: Option[String] = None
 
-  def receive = {
+  override def receive = super.receive orElse {
     case SetFilter(s) =>
       filter = s
       notifyAll(FilterChanged)

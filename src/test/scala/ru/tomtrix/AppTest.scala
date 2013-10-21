@@ -4,8 +4,9 @@ import akka.actor._
 import ru.tomtrix.ttl.GUI._
 
 object AppTest extends App {
-  createApp("Form1", 500, 400) { (shell, system) =>
-    val model = system.actorOf(Props[Model])
-    val view  = system.actorOf(Props(new View(model, shell)))
+  createApp("Trixer", 500, 400) { (shell, system) =>
+    system.actorOf(Props[Model], name = "Model")
+    system.actorOf(Props(new View(shell)), name = "View")
+    system.actorOf(Props[Controller], name = "Controller")
   }
 }
