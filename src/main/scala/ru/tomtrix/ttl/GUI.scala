@@ -1,7 +1,6 @@
 package ru.tomtrix.ttl
 
 import org.eclipse.swt.widgets._
-import org.eclipse.swt.graphics.Image
 import akka.actor.ActorSystem
 
 object GUI {
@@ -14,14 +13,13 @@ object GUI {
 
     // customize the shell
     shell setText title
-    shell setBounds( 0, 0, width, height)
+    shell setSize (width, height)
     shell setMinimumSize shell.getSize
     shell setLocation(display.getBounds.width /2-width/2, display.getBounds.height /2-height/2)
 
     f(shell, system)
 
     // main loop
-    shell.open()
     while (!shell.isDisposed)
       if (!display.readAndDispatch()) display.sleep
 

@@ -29,7 +29,6 @@ class View(shell: Shell) extends Actor {
     table setLinesVisible true
     table setHeaderVisible true
     val gdTable = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1)
-    gdTable.heightHint = 400
     table setLayoutData gdTable
 
     //search textbox
@@ -49,7 +48,7 @@ class View(shell: Shell) extends Actor {
     gdNewButton.widthHint = 100
     newButton setLayoutData gdNewButton
 
-    shell.pack()
+    shell.open()
   }
 
   model ! Register(context.self)
