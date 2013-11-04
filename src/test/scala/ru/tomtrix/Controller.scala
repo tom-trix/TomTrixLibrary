@@ -4,6 +4,7 @@ import akka.actor._
 
 
 case class SetSearchedText(s: String)
+object NewItem
 
 
 /**
@@ -18,5 +19,7 @@ class Controller extends Actor {
       case "" => model ! SetFilter(None)
       case x  => model ! SetFilter(Some(x.trim))
     }
+    case NewItem =>
+      view ! ShowItemDialog(None, None)
   }
 }

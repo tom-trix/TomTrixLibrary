@@ -8,11 +8,13 @@ import org.eclipse.swt.widgets._
 import ru.tomtrix.ttl.GUI._
 import ru.tomtrix.ttl.global._
 import ru.tomtrix.ttl.Register
+import ru.tomtrix.ttl.gui.{ComboBoxItem, TextBoxItem, DialogItem, ExtendedDialog}
 
 
 case object FilterChanged
 case class Headers(headers: Seq[String])
 case class Data(data: scala.List[Seq[Any]])
+case class ShowItemDialog(artistOpt: Option[String], songOpt: Option[String])
 
 
 class View(shell: Shell) extends Actor {
@@ -47,6 +49,11 @@ class View(shell: Shell) extends Actor {
     val gdNewButton = new GridData(SWT.CENTER, SWT.NONE, false, false)
     gdNewButton.widthHint = 100
     newButton setLayoutData gdNewButton
+    newButton addSelectionListener new SelectionAdapter {
+      override def widgetSelected (e: SelectionEvent) {
+        controller ! NewItem
+      }
+    }
 
     shell.open()
   }
@@ -61,11 +68,20 @@ class View(shell: Shell) extends Actor {
         new TableColumn(table, SWT.NONE) setText h
     }
     case Data(data) => runInGUIThread {
-      table.removeAll()
+      table removeAll()
       data foreach {new TableItem(table, SWT.NONE) setText _.map{t => str(t)}.toArray}
       table.getColumns foreach {_.pack}
     }
     case FilterChanged =>
       model ! GetData
+    case ShowItemDialog(artistOpt, songOpt) => runInGUIThread {
+      new ExtendedDialog("Новая композиция", Seq(
+        DialogItem("Исполнитель", TextBoxItem, Nil, "Введите имя..."),
+        DialogItem("Композиция", TextBoxItem, Nil, "Введите название..."),
+        DialogItem("Бла-бла", ComboBoxItem, Seq("fs", "bnhdui", "sff"), "ger", 0)
+      )) (results =>
+        println(results)
+      )
+    }
   }
 }

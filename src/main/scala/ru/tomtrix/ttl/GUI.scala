@@ -15,7 +15,7 @@ object GUI {
     shell setText title
     shell setSize (width, height)
     shell setMinimumSize shell.getSize
-    shell setLocation(display.getBounds.width /2-width/2, display.getBounds.height /2-height/2)
+    putToCenter(shell)
 
     f(shell, system)
 
@@ -32,5 +32,13 @@ object GUI {
     Display.getDefault.asyncExec(new Runnable {
       def run() = f
     })
+  }
+
+  def putToCenter(shell: Shell) {
+    val display = Display.getDefault
+    shell setLocation (
+      display.getBounds.width/2 - shell.getBounds.width/2,
+      display.getBounds.height/2 - shell.getBounds.height/2
+    )
   }
 }

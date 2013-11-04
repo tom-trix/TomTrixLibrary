@@ -181,3 +181,11 @@ package object global {
     case x => x.toString
   }
 }
+
+object Keyboard {
+  val BACKSPACE = 8
+  val ENTER = 13
+  val DELETE = 127
+  val UP = 16777217
+  val DOWN = 16777218
+}
